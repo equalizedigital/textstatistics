@@ -356,6 +356,7 @@ class Syllables
     public static function averageSyllablesPerWord($strText, $strEncoding = '')
     {
         $intSyllableCount = 0;
+        $strText = preg_replace('/\s+/', ' ', trim($strText));
         $intWordCount = Text::wordCount($strText, $strEncoding);
         $arrWords = explode(' ', $strText);
         for ($i = 0; $i < $intWordCount; $i++) {
@@ -375,6 +376,7 @@ class Syllables
     public static function wordsWithThreeSyllables($strText, $blnCountProperNouns = true, $strEncoding = '')
     {
         $intLongWordCount = 0;
+        $strText = preg_replace('/\s+/', ' ', trim($strText));
         $intWordCount = Text::wordCount($strText, $strEncoding);
         $arrWords = explode(' ', $strText);
         for ($i = 0; $i < $intWordCount; $i++) {
