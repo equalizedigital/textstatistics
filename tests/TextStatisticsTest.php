@@ -192,6 +192,28 @@ class TextStatisticsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $this->TextStatistics->averageSyllablesPerWord('and then there was one'));
         $this->assertEquals(2, $this->TextStatistics->averageSyllablesPerWord('because special ducklings deserve rainbows'));
         $this->assertEquals(1.5, $this->TextStatistics->averageSyllablesPerWord('and then there was one because special ducklings deserve rainbows'));
+        // Regression: non-space whitespace must not cause undefined array key warnings
+        $this->assertEquals(
+            $this->TextStatistics->averageSyllablesPerWord('and then'),
+            $this->TextStatistics->averageSyllablesPerWord("and\nthen")
+        );
+        $this->assertEquals(
+            $this->TextStatistics->averageSyllablesPerWord('and then'),
+            $this->TextStatistics->averageSyllablesPerWord("and\tthen")
+        );
+        $this->assertEquals(
+            $this->TextStatistics->averageSyllablesPerWord('and then'),
+            $this->TextStatistics->averageSyllablesPerWord("and\n\nthen")
+        );
+    }
+
+    public function testWordsWithThreeSyllablesWhitespace()
+    {
+        // Regression: non-space whitespace must produce the same result as spaces
+        $this->assertEquals(
+            DaveChild\TextStatistics\Syllables::wordsWithThreeSyllables('there is just one', true),
+            DaveChild\TextStatistics\Syllables::wordsWithThreeSyllables("there\nis\njust\none", true)
+        );
     }
 
     /* Test Words
